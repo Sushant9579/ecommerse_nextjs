@@ -35,3 +35,23 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 #
+
+
+
+#######################################env file parameters
+DATABASE_URL=postgresql://username:password@localhost:5432/databasename
+SECRET_KEY=JWT_KEY
+NEXT_PUBLIC_API_URL=http://127.0.0.1:3000
+
+NEXT_PUBLIC_PAYTM_HOST=https://secure.paytmpayments.com
+PAYTM_MID=!!!!!!!!!!!!!!!!
+NEXT_PUBLIC_PAYTM_WEBSITE=!!!!!!!!!!!!!!!
+NEXT_PUBLIC_PAYTM_CALLBACK_URL=http://localhost:3000/api/paytm/callback
+PAYTM_MERCHANT_KEY=!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+EMAIL_USER=eamil 
+EMAIL_PASS=email app password
+
+# NEXT_PUBLIC_RAZORPAY_KEY_ID=your_test_key_id
+# NEXT_PUBLIC_RAZORPAY_KEY_SECRET=your_test_key_secret
+########################################################################
