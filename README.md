@@ -39,19 +39,19 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 
 #######################################env file parameters
-DATABASE_URL=postgresql://username:password@localhost:5432/databasename
+<!-- DATABASE_URL=11111111111
 SECRET_KEY=JWT_KEY
-NEXT_PUBLIC_API_URL=http://127.0.0.1:3000
+NEXT_PUBLIC_API_URL=11111111111111
 
-NEXT_PUBLIC_PAYTM_HOST=https://secure.paytmpayments.com
+NEXT_PUBLIC_PAYTM_HOST=111111111111111111111111111
 PAYTM_MID=!!!!!!!!!!!!!!!!
 NEXT_PUBLIC_PAYTM_WEBSITE=!!!!!!!!!!!!!!!
-NEXT_PUBLIC_PAYTM_CALLBACK_URL=http://localhost:3000/api/paytm/callback
+NEXT_PUBLIC_PAYTM_CALLBACK_URL=xxxxxxxxxxxxxxxxxxxxxxx
 PAYTM_MERCHANT_KEY=!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 EMAIL_USER=eamil 
 EMAIL_PASS=email app password
 
-# NEXT_PUBLIC_RAZORPAY_KEY_ID=your_test_key_id
-# NEXT_PUBLIC_RAZORPAY_KEY_SECRET=your_test_key_secret
+#NEXT_PUBLIC_RAZORPAY_KEY_ID=your_test_key_id
+# NEXT_PUBLIC_RAZORPAY_KEY_SECRET=your_test_key_secret -->
 ########################################################################
