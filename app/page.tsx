@@ -1,103 +1,59 @@
-import Image from "next/image";
+import Carousel from '@/component/carousel';
+import Image from 'next/image';
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const galleryImages = [
+    {
+      src: "https://images.unsplash.com/photo-1605902711622-cfb43c4437b5?q=80&w=869&auto=format&fit=crop",
+      title: "Shooting Stars",
+    },
+    {
+      src: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?q=80&w=1470&auto=format&fit=crop",
+      title: "The Catalyzer",
+    },
+    {
+      src: "https://images.unsplash.com/photo-1487014679447-9f8336841d58?q=80&w=1005&auto=format&fit=crop",
+      title: "The 400 Blows",
+    },
+    {
+      src: "https://plus.unsplash.com/premium_photo-1664201889922-66bc3c778c1e?q=80&w=870&auto=format&fit=crop",
+      title: "Neptune",
+    },
+    {
+      src: "https://images.unsplash.com/photo-1657812159103-1b2a52a7f5e8?q=80&w=867&auto=format&fit=crop",
+      title: "Holden Caulfield",
+    },
+    {
+      src: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=870&auto=format&fit=crop",
+      title: "Alper Kamu",
+    },
+  ];
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  return (
+    <div className='mx-1'>
+      <Carousel />
+
+      <section className="text-gray-600 body-font">
+        <div className="container px-5 py-10 mx-auto">
+          <div className="flex flex-col text-center w-full mb-12">
+            <h1 className="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Shop the Latest Trends | Affordable Fashion, Electronics & More – E-COMMERCE</h1>
+            <p className="lg:w-2/3 mx-auto leading-relaxed text-base flex flex-col gap-y-2"> Welcome to E-COMMERCE — your destination for quality, style, and unbeatable value. Whether you're shopping for fashion-forward apparel, cutting-edge tech, or beautiful home essentials, we've curated a collection that brings together the best in design and functionality.</p>
+          </div>
+
+          <div className="flex flex-wrap -m-4">
+            {galleryImages.map((img, idx) => ( <div className="lg:w-1/3 sm:w-1/2 p-4" key={idx}> <div className="flex relative">
+                  <Image src={img.src} alt={img.title} className="absolute rounded inset-0 w-full h-full object-cover object-center" width={870} height={500}/>
+                  <div className="px-8 py-10 relative z-10 w-full border-4 border-gray-200 bg-white opacity-0 hover:opacity-100">
+                    <h2 className="tracking-widest text-sm title-font font-medium text-blue-500 mb-1">THE SUBTITLE</h2>
+                    <h1 className="title-font text-lg font-medium text-gray-900 mb-3">{img.title}</h1>
+                    <p className="leading-relaxed"> Photo booth fam kinfolk cold-pressed sriracha leggings jianbing microdosing tousled waistcoat. </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </section>
     </div>
   );
 }
