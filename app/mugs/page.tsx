@@ -1,21 +1,45 @@
 import { FaIndianRupeeSign } from "react-icons/fa6";
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '@/lib/prisma';
 import Link from "next/link";
+import Image from "next/image";
+
+export const dynamic = 'force-dynamic';
 
 export default async function Mugs(){
-    const prisma = new PrismaClient();
-
-    const products = await prisma.product.findMany({
-      where:{
-        category:'mugs'
-      }
-    });
+    // use shared prisma
+    let products;
+    try {
+      products = await prisma.product.findMany({
+        where:{
+          category:'mugs'
+        }
+      });
+    } catch (error) {
+      console.error('Database connection error:', error);
+      return (
+        <div className='flex justify-center mt-6 text-2xl'>
+          Unable to load products. Please try again later.
+        </div>
+      );
+    }
 
     if (!products || products.length === 0) return (
     <div className='flex justify-center mt-6 text-2xl'>Sorry!!!, All the Mugs are Out of Stock.</div>
   );
 
-    const data: Record<string, any> = {};
+    type ProductAggregated = {
+      id: string;
+      title: string;
+      desc: string;
+      img: string;
+      category: string;
+      price: number;
+      availableQty: number;
+      size: string[];
+      color: string[];
+    };
+
+    const data: Record<string, ProductAggregated> = {} as Record<string, ProductAggregated>;
 
       for (let i = 0; i < products.length; i++) {
         const item = products[i];
@@ -32,7 +56,17 @@ export default async function Mugs(){
           }
         } else {
           //Else New entry
-          data[item.title] = { ...item }; // clone item
+          data[item.title] = {
+            id: item.id,
+            title: item.title,
+            desc: item.desc,
+            img: item.img,
+            category: item.category,
+            price: item.price,
+            availableQty: item.availableQty,
+            size: [],
+            color: [],
+          };
           if (item.availableQty > 0) {
             data[item.title].color = [item.color];
             data[item.title].size = [item.size];
@@ -49,7 +83,7 @@ export default async function Mugs(){
               <Link key={data[item].id} href={`${process.env.NEXT_PUBLIC_API_URL}/products/${data[item].title}`}>
                 <div className="flex flex-col p-3 w-full h-full shadow-xl rounded-2xl bg-white">
                   <span className="block overflow-hidden rounded">
-                    <img alt={data[item].title} src={data[item].img} className="object-cover object-top w-3/5 h-48 mx-auto rounded-lg" />
+                    <Image alt={data[item].title} src={data[item].img} className="object-cover object-top w-3/5 h-48 mx-auto rounded-lg" width={300} height={192} />
                   </span>
 
                   <div className="flex flex-col flex-grow mt-4">

@@ -1,7 +1,7 @@
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "@/lib/prisma";
 import OrderClient from "@/component/OrderClient";
 
-const prisma = new PrismaClient();
+// shared prisma
 
 export default async function Order({
   params,

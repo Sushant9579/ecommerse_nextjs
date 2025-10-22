@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect } from "react";
-//@ts-ignore
 import namer from "color-namer";
 import Link from "next/link";
 
@@ -59,8 +58,9 @@ export default function MyOrder() {
 
         if (res.ok) setOrders(data);
         else setError(data.error || "Failed to fetch orders");
-      } catch (err: any) {
-        setError(err.message);
+      } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : "Failed to fetch orders";
+        setError(message);
       }
     };
 
@@ -74,7 +74,7 @@ export default function MyOrder() {
       <h1 className="flex justify-center text-2xl font-bold text-shadow-gray-700 my-3">My Orders</h1>
       {orders.length === 0 && <p className="text-center">No orders found.</p>}
 
-      {orders.map((order, index) => (
+      {orders.map((order) => (
         <Link key={order.orderID} href={`${process.env.NEXT_PUBLIC_API_URL}/order/${order.orderID}`}>
           <div className="mb-6 border rounded-md p-4">
           <h2 className="font-medium">Order ID: #{order.orderID}</h2>

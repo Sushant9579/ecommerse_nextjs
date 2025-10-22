@@ -1,11 +1,11 @@
 'use client';
 
-import { useState, useEffect } from "react";
+import { Suspense, useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { ToastContainer, toast, Bounce } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
-export default function ResetPasswordPage() {
+function ResetPasswordForm() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const searchParams = useSearchParams();
@@ -36,7 +36,7 @@ export default function ResetPasswordPage() {
 
       toast.success("Password reset successful!", { transition: Bounce });
       setTimeout(() => router.push("/login"), 2000);
-    } catch (error) {
+    } catch {
       toast.error("Something went wrong!", { transition: Bounce });
     }
   };
@@ -46,7 +46,7 @@ export default function ResetPasswordPage() {
       toast.error("Invalid or missing token.", { transition: Bounce });
       router.push("/forgot");
     }
-  }, [token]);
+  }, [token, router]);
 
   return (
     <section className="flex justify-center items-center h-screen">
@@ -68,5 +68,13 @@ export default function ResetPasswordPage() {
         </form>
       </div>
     </section>
+  );
+}
+
+export default function ResetPasswordPage() {
+  return (
+    <Suspense fallback={<section className="flex justify-center items-center h-screen"><div>Loading...</div></section>}>
+      <ResetPasswordForm />
+    </Suspense>
   );
 }

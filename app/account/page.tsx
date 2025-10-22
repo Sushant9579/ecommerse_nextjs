@@ -60,7 +60,7 @@ export default function Account(){
       } else {
         toast.success('User Updated Successfully!', { position: "top-center", autoClose: 5000, theme:"light", transition: Bounce });
       }
-    } catch(err) {
+    } catch {
       toast.error('Something went wrong!', { position: "top-center", autoClose: 5000, theme:"light", transition: Bounce });
     }
   }
@@ -92,7 +92,7 @@ const handleSubmitPass = async () => {
     toast.success(data.message, { position: "top-center", autoClose: 5000, theme: "light", transition: Bounce });
     setPassData({ oldPassword: "", newPassword: "" }); // Clear fields
 
-  } catch (err) {
+  } catch {
     toast.error("Something went wrong", { position: "top-center", autoClose: 5000, theme: "light", transition: Bounce });
   }
 };

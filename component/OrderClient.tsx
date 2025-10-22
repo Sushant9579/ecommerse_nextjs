@@ -1,11 +1,28 @@
 'use client'
 import { useEffect, useState } from "react";
 import { useCart } from "./cartFunction"; // adjust path
-// @ts-ignore
 import namer from "color-namer";
 
+type OrderItem = {
+  id: string;
+  quantity: number;
+  price: number;
+  color: string;
+  product: {
+    title: string;
+    size: string;
+  };
+};
+
+interface OrderData {
+  orderID: string;
+  status: "Paid" | "Pending" | string;
+  amount: number;
+  products: OrderItem[];
+}
+
 interface OrderClientProps {
-  order: any;
+  order: OrderData;
   clearCartParam?: string | boolean;
 }
 
@@ -47,7 +64,7 @@ export default function OrderClient({ order, clearCartParam }: OrderClientProps)
             </div>
 
             {/* Order Items */}
-            {order.products.map((p: any) => (
+            {order.products.map((p: OrderItem) => (
               <div key={p.id} className="flex border-y border-gray-200 py-2 justify-between items-center">
                 <div className="flex w-1/3 gap-2 items-center"> <span className="text-gray-500 text-center">{`${p.product.title}-${p.product.size}/${namer(p.color).basic[0].name}`}</span> </div>
                 <span className="text-gray-500 w-1/3 text-center">{p.quantity}</span>

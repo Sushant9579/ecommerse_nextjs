@@ -36,8 +36,8 @@ export default function Home() {
       <section className="text-gray-600 body-font">
         <div className="container px-5 py-10 mx-auto">
           <div className="flex flex-col text-center w-full mb-12">
-            <h1 className="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Shop the Latest Trends | Affordable Fashion, Electronics & More – E-COMMERCE</h1>
-            <p className="lg:w-2/3 mx-auto leading-relaxed text-base flex flex-col gap-y-2"> Welcome to E-COMMERCE — your destination for quality, style, and unbeatable value. Whether you're shopping for fashion-forward apparel, cutting-edge tech, or beautiful home essentials, we've curated a collection that brings together the best in design and functionality.</p>
+            <h1 className="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Shop the Latest Trends | Affordable Fashion, Electronics &amp; More – E-COMMERCE</h1>
+            <p className="lg:w-2/3 mx-auto leading-relaxed text-base flex flex-col gap-y-2"> Welcome to E-COMMERCE — your destination for quality, style, and unbeatable value. Whether you&apos;re shopping for fashion-forward apparel, cutting-edge tech, or beautiful home essentials, we&apos;ve curated a collection that brings together the best in design and functionality.</p>
           </div>
 
           <div className="flex flex-wrap -m-4">

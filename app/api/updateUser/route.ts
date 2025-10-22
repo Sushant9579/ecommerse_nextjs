@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "@/lib/prisma";
 import { UpdateUserSchema, UserInputSchema } from "@/lib/validation/updateUserSchema";
 import { ZodError } from "zod";
 
-const prisma = new PrismaClient();
+// shared prisma
 
 export async function PATCH(request: NextRequest) {
   try {
@@ -32,7 +32,7 @@ export async function PATCH(request: NextRequest) {
       message: "User updated successfully",
       data: updatedUser,
     });
-  } catch (error) {
+  } catch (error: unknown) {
     //   Zod validation error
     if (error instanceof ZodError) {
       return NextResponse.json(
@@ -46,7 +46,8 @@ export async function PATCH(request: NextRequest) {
     }
 
     //   Prisma record not found
-    if ((error as any).code === "P2025") {
+    const maybePrismaError = error as { code?: string } | null;
+    if (maybePrismaError && maybePrismaError.code === "P2025") {
       return NextResponse.json(
         { success: false, error: "User not found" },
         { status: 404 }
@@ -54,7 +55,7 @@ export async function PATCH(request: NextRequest) {
     }
 
     //   Prisma unique constraint error
-    if ((error as any).code === "P2002") {
+    if (maybePrismaError && maybePrismaError.code === "P2002") {
       return NextResponse.json(
         { success: false, error: "Unique constraint failed" },
         { status: 409 }

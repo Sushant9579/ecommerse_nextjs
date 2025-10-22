@@ -1,9 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '@/lib/prisma';
 import { userSchema, UserInput } from '@/lib/validation/userSchema';
 import { ZodError } from 'zod';
-
-const prisma = new PrismaClient();
 
 export async function POST(request: NextRequest) {
   try {
@@ -34,7 +32,8 @@ export async function POST(request: NextRequest) {
 }
 
     // Handle Prisma unique constraint error
-    if ((error as any).code === 'P2002') {
+    const maybePrismaError = error as { code?: string } | null;
+    if (maybePrismaError && maybePrismaError.code === 'P2002') {
       return NextResponse.json(
         { success: false, error: 'User already exists' },
         { status: 409 }

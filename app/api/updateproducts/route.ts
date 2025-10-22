@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '@/lib/prisma';
 import { updateProductSchema, UpdateProductInput } from '@/lib/validation/updateProductSchema';
 import { ZodError } from 'zod';
 
-const prisma = new PrismaClient();
+// shared prisma
 
 export async function PATCH(request: NextRequest) {
   try {
@@ -38,7 +38,8 @@ export async function PATCH(request: NextRequest) {
     }
 
     // Prisma error: product not found or unique constraint violation
-    if ((error as any).code === 'P2025') {
+    const maybePrismaError = error as { code?: string } | null;
+    if (maybePrismaError && maybePrismaError.code === 'P2025') {
       // P2025 = Record to update not found
       return NextResponse.json(
         { success: false, error: 'Product not found' },
@@ -46,7 +47,7 @@ export async function PATCH(request: NextRequest) {
       );
     }
 
-    if ((error as any).code === 'P2002') {
+    if (maybePrismaError && maybePrismaError.code === 'P2002') {
       // P2002 = Unique constraint failed
       return NextResponse.json(
         { success: false, error: 'Unique constraint failed' },

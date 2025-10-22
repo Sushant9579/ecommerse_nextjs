@@ -1,7 +1,7 @@
 'use client'
 
 import React, { createContext, useContext, useState, useEffect,useRef } from 'react';
-import LoadingBar from "react-top-loading-bar";
+import LoadingBar, { LoadingBarRef } from "react-top-loading-bar";
 import { usePathname } from "next/navigation";
 
 // Define your Cart types
@@ -43,13 +43,13 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [subTotal, setSubTotal] = useState<number>(0);
 
   const pathname = usePathname();
-  const ref = useRef<any>(null);
+  const ref = useRef<LoadingBarRef | null>(null);
 
     useEffect(() => {
     if (ref.current) {
       ref.current.continuousStart(); // start when route changes
       setTimeout(() => {
-        ref.current.complete(); // finish after short delay
+        ref.current?.complete(); // finish after short delay
       }, 400);
     }
   }, [pathname]);

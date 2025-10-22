@@ -1,15 +1,28 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
   images: {
-    domains: [
-      'plus.unsplash.com',
-      'images.unsplash.com',
-      'readymadeui.com',
-    ], 
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "plus.unsplash.com",
+      },
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+      },
+      {
+        protocol: "https",
+        hostname: "readymadeui.com",
+      },
+      {
+        protocol: "https",
+        hostname: "m.media-amazon.com", 
+      },
+    ],
   },
-  devIndicators:false
+  devIndicators: false,
 };
 
 export default nextConfig;
+

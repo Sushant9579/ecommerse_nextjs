@@ -2,6 +2,7 @@
 
 import { useState,useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Bounce, ToastContainer, toast } from 'react-toastify';
 import bcrypt from "bcryptjs";
 import { useRouter } from "next/navigation";
@@ -30,7 +31,7 @@ export default function SignUp() {
                   router.push(`${process.env.NEXT_PUBLIC_API_URL}/`)
                   setToken(true);
               }
-          }, []);
+          }, [router, setToken]);
 
   const [form, setForm] = useState<SignUpForm>({
     username: '',
@@ -149,7 +150,7 @@ export default function SignUp() {
   return (
     <section className="grid grid-cols-1 lg:grid-cols-2 gap-4 border border-gray-400 m-4 rounded-xl overflow-hidden h-full">
       <div className="hidden lg:flex justify-center items-center mx-4">
-        <img src="https://readymadeui.com/login-image.webp" alt="Sign Up" />
+        <Image src="https://readymadeui.com/login-image.webp" alt="Sign Up" width={400} height={400} />
       </div>
       <div className="flex justify-center items-center">
         <ToastContainer position="top-left" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick={false} rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="light" transition={Bounce} />

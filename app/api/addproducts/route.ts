@@ -1,9 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '@/lib/prisma';
 import { productSchema, ProductInput } from '@/lib/validation/productSchema';
 import { ZodError } from 'zod';
-
-const prisma = new PrismaClient();
 
 export async function POST(request: NextRequest) {
   try {
@@ -27,14 +25,15 @@ export async function POST(request: NextRequest) {
     {
       success: false,
       error: 'Validation failed',
-      issues: (error as ZodError),
+      issues: error.issues,
     },
     { status: 400 }
   );
 }
 
     // Handle Prisma unique constraint error
-    if ((error as any).code === 'P2002') {
+    const maybePrismaError = error as { code?: string } | null;
+    if (maybePrismaError && maybePrismaError.code === 'P2002') {
       return NextResponse.json(
         { success: false, error: 'Product already exists' },
         { status: 409 }

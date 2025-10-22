@@ -1,8 +1,8 @@
 import https from "https";
 import { NextRequest, NextResponse } from "next/server";
 import PaytmChecksum from "paytmchecksum";
-import { PrismaClient } from '@prisma/client';
 import pincodes from '@/pincodes.json';
+import { prisma } from "@/lib/prisma";
 
 interface PaytmParams {
   body: {
@@ -24,12 +24,12 @@ interface PaytmParams {
   };
 }
 
-const prisma = new PrismaClient();
-
-export async function POST(req: NextRequest) {
+export async function POST(req: NextRequest): Promise<NextResponse> {
   try {
     // Parse request body safely
-    const { subTotal, email, oid,fullAddress,pincode,cart,name,phone } = await req.json();
+    const { subTotal, email, oid,fullAddress,pincode,cart } = await req.json();
+    type CartItem = { id: string; qty: number; price: number; size: string; color: string };
+    const cartValues = Object.values(cart) as CartItem[];
     //console.log("Request body:", { subTotal, email, oid, cart });
     if (!oid || !subTotal || !email || !cart) {
       return NextResponse.json({success: false, message: "Missing orderId or Amount or Email or Cart" }, { status: 400 });
@@ -41,23 +41,23 @@ export async function POST(req: NextRequest) {
       // Check if the cart is tampered with
       let sumTotal = 0;
 
-      for (let item in cart) {
+      for (const key in cart) {
         const dbProduct = await prisma.product.findFirst({
-          where: { id: cart[item].id },
+          where: { id: (cart as Record<string, CartItem>)[key].id },
         });
 
         if (!dbProduct) {
           return NextResponse.json( { success: false, message: "Invalid product in cart" },{ status: 400 });
         }
 
-        sumTotal += cart[item].price * cart[item].qty;
+        sumTotal += (cart as Record<string, CartItem>)[key].price * (cart as Record<string, CartItem>)[key].qty;
 
-        if(dbProduct.availableQty < cart[item].qty){
+        if(dbProduct.availableQty < (cart as Record<string, CartItem>)[key].qty){
           return NextResponse.json( { success: false, message: "Some items in your cart went out of stock. Please try again!!" }, { status: 400 } );
         }
 
         // Price mismatch
-        if (dbProduct.price !== cart[item].price) {
+        if (dbProduct.price !== (cart as Record<string, CartItem>)[key].price) {
           return NextResponse.json( { success: false, message: "Product price mismatch" }, { status: 400 } );
         }
       }
@@ -72,7 +72,7 @@ export async function POST(req: NextRequest) {
 
     //check if the details are valid --[pending]
 
-    const order = await prisma.order.create({
+    await prisma.order.create({
       data: {
         orderID: String(oid),
         email,
@@ -80,7 +80,7 @@ export async function POST(req: NextRequest) {
         amount: subTotal,
         status: "Pending",
         products: {
-          create: Object.values(cart).map((item: any) => ({
+          create: cartValues.map((item) => ({
             productId: item.id,
             quantity: Number(item.qty),
             price: item.price,
@@ -136,7 +136,7 @@ export async function POST(req: NextRequest) {
       },
     };
 
-    return new Promise((resolve, reject) => {
+    return new Promise<NextResponse>((resolve, reject) => {
       let response = "";
 
       const post_req = https.request(options, (post_res) => {
@@ -150,15 +150,16 @@ export async function POST(req: NextRequest) {
         });
       });
 
-      post_req.on("error", (err) => {
+      post_req.on("error", (err: Error) => {
         reject(NextResponse.json({ error: err.message }, { status: 501 }));
       });
 
       post_req.write(post_data);
       post_req.end();
     });
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 502 });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : "Bad Gateway";
+    return NextResponse.json({ error: message }, { status: 502 });
   }
 }
 

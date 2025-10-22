@@ -1,8 +1,8 @@
 // middleware.ts
 import { NextRequest, NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
+import { prisma } from "@/lib/prisma";
 
-const prisma = new PrismaClient();
+// shared prisma
 
 async function checkDBConnection(): Promise<boolean> {
   try {
@@ -26,5 +26,4 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: ['/protected/:path*'],
-  runtime: 'nodejs', 
 };

@@ -28,7 +28,7 @@ export default function Login(){
                 router.push(`${process.env.NEXT_PUBLIC_API_URL}/`)
                 setToken(true);
             }
-        }, []);
+        }, [router, setToken]);
     
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -93,13 +93,13 @@ export default function Login(){
                         <button type="submit" className="bg-blue-500 my-4 py-2 text-white rounded-2xl hover:bg-blue-800 w-full">Login</button>
                     </form>
                 <div className="flex gap-x-3 mx-auto">
-                    <p className="font-medium">Don't have an account</p>
+                    <p className="font-medium">Don&apos;t have an account</p>
                     <p className="text-blue-500 hover:text-blue-800 cursor-pointer font-bold"><Link href={`${process.env.NEXT_PUBLIC_API_URL}/signup`}>SignUp </Link></p>
                 </div>
                 </div>
             </div>
             <div className="hidden lg:flex justify-center items-center mx-4">
-                <img src="https://readymadeui.com/login-image.webp" alt="Login Img" />
+                <Image src="https://readymadeui.com/login-image.webp" alt="Login Img" width={400} height={400} />
             </div>
 
         </section>

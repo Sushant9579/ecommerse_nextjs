@@ -1,9 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "@/lib/prisma";
 import jwt from "jsonwebtoken";
 import nodemailer from "nodemailer";
-
-const prisma = new PrismaClient();
 
 // Environment variables you’ll need:
 // EMAIL_USER, EMAIL_PASS, JWT_SECRET, NEXT_PUBLIC_API_URL

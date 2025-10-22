@@ -20,7 +20,7 @@ export default function ForgotPasswordPage() {
                   router.push(`${process.env.NEXT_PUBLIC_API_URL}/`)
                   setToken(true);
               }
-          }, []);
+          }, [router, setToken]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -40,7 +40,7 @@ export default function ForgotPasswordPage() {
 
       toast.success("Password reset link generated!", { transition: Bounce });
 
-    } catch (error) {
+    } catch {
       toast.error("Something went wrong!", { transition: Bounce });
     }
   };

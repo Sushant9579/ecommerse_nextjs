@@ -1,7 +1,7 @@
-import { NextResponse,NextRequest } from 'next/server';
+import { NextResponse } from 'next/server';
 import pincodes from '@/pincodes.json';
 
-export async function GET(request: NextRequest) {
+export async function GET() {
 // let pincodes = {
 //   "110001": ["New Delhi", "Delhi"],
 //   "400001": ["Mumbai", "Maharashtra"],

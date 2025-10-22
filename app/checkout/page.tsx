@@ -9,7 +9,6 @@ import Script from "next/script";
 import Head from "next/head";
 import jwt from 'jsonwebtoken';
 import { Bounce, ToastContainer, toast } from 'react-toastify';
-// @ts-ignore
 import namer from 'color-namer';
 
 export default function Checkout() {
@@ -131,7 +130,7 @@ const handleChange = async (e: React.ChangeEvent<HTMLInputElement | HTMLTextArea
       userDetail: { mobileNumber: phone, name, email },
     },
     merchant: { mid: process.env.PAYTM_MID, name: "E-Commerce Payment", redirect: true },
-    handler: { notifyMerchant: (event: any, data: any) => console.log(event, data) },
+    handler: { notifyMerchant: (event: unknown, data: unknown) => console.log(event, data) },
   };
 
   if (window.Paytm?.CheckoutJS) {

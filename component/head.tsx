@@ -11,7 +11,6 @@ import { IoBagCheckOutline } from "react-icons/io5";
 import { useCart } from "@/component/cartFunction";
 import { FaIndianRupeeSign } from "react-icons/fa6";
 import { usePathname } from "next/navigation";
-// @ts-ignore
 import namer from 'color-namer';
 
 export default function Head(){
